@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "nordew.user.v1";
+
+service User {
+  rpc SignUp(SignUpRequest) returns (empty);
+  rpc SignIn(SignInRequest) returns (SignInResponse);
+}
+
+message SignUpRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message SignInRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message SignInResponse {
+  string accessToken = 1;
+  string refreshToken = 2;
+}
+
+message empty {}
