@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package store;
+
+option go_package = "nordew.user.v1";
+
+service StoreService {
+  rpc CreateStore(CreateStoreRequest) returns (empty);
+  rpc GetMarket(GetStoreRequest) returns (GetStoreResponse);
+}
+
+message CreateStoreRequest {
+  string name = 1;
+  string owner_id = 2;
+}
+
+message GetStoreRequest {
+  string store_id = 1;
+  string owner_id = 2;
+}
+
+message GetStoreResponse {
+  Store store = 1;
+}
+
+message Store {
+  string store_id = 1;
+  string name = 2;
+  string owner_id = 3;
+  int64  products_count = 4;
+  bool is_active = 5;
+  string created_at = 6;
+}
+
+message empty {}
