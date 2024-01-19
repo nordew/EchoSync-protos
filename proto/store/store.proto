@@ -4,6 +4,53 @@ package store;
 
 option go_package = "nordew.user.v1";
 
+service ProductService {
+  rpc CreateProduct(CreateProductRequest) returns (empty);
+  rpc GetProductsByStoreID(GetProductsByStoreIDRequest) returns (GetProductsByStoreIDResponse);
+  rpc GetProductByID(GetProductByIDRequest) returns (GetProductByIDResponse);
+  rpc UpdateProduct(UpdateProductRequest) returns (empty);
+  rpc DeleteProduct(DeleteProductRequest) returns (empty);
+}
+
+message CreateProductRequest {
+  string product_name = 1;
+  int32 price = 2;
+  int32 quantity = 3;
+}
+
+message GetProductsByStoreIDRequest {
+  string store_id = 1;
+}
+
+message GetProductsByStoreIDResponse {
+  repeated Product products = 1;
+}
+
+message GetProductByIDRequest {
+  string product_id = 1;
+}
+
+message GetProductByIDResponse {
+  Product product = 1;
+}
+
+message UpdateProductRequest {
+  Product product = 1;
+}
+
+message DeleteProductRequest {
+  string product_id = 1;
+}
+
+message Product {
+  string product_id = 1;
+  string store_id = 2;
+  string product_name = 3;
+  int32 price = 4;
+  int32 quantity = 5;
+  string created_at = 6;
+}
+
 service StoreService {
   rpc CreateStore(CreateStoreRequest) returns (empty);
   rpc GetMarket(GetStoreRequest) returns (GetStoreResponse);
