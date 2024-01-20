@@ -254,6 +254,8 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 type StoreServiceClient interface {
 	CreateStore(ctx context.Context, in *CreateStoreRequest, opts ...grpc.CallOption) (*Empty, error)
 	GetMarket(ctx context.Context, in *GetStoreRequest, opts ...grpc.CallOption) (*GetStoreResponse, error)
+	UpdateStore(ctx context.Context, in *UpdateStoreRequest, opts ...grpc.CallOption) (*Empty, error)
+	DeleteStore(ctx context.Context, in *DeleteStoreRequest, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type storeServiceClient struct {
@@ -282,12 +284,32 @@ func (c *storeServiceClient) GetMarket(ctx context.Context, in *GetStoreRequest,
 	return out, nil
 }
 
+func (c *storeServiceClient) UpdateStore(ctx context.Context, in *UpdateStoreRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/store.StoreService/UpdateStore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storeServiceClient) DeleteStore(ctx context.Context, in *DeleteStoreRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/store.StoreService/DeleteStore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StoreServiceServer is the server API for StoreService service.
 // All implementations must embed UnimplementedStoreServiceServer
 // for forward compatibility
 type StoreServiceServer interface {
 	CreateStore(context.Context, *CreateStoreRequest) (*Empty, error)
 	GetMarket(context.Context, *GetStoreRequest) (*GetStoreResponse, error)
+	UpdateStore(context.Context, *UpdateStoreRequest) (*Empty, error)
+	DeleteStore(context.Context, *DeleteStoreRequest) (*Empty, error)
 	mustEmbedUnimplementedStoreServiceServer()
 }
 
@@ -300,6 +322,12 @@ func (UnimplementedStoreServiceServer) CreateStore(context.Context, *CreateStore
 }
 func (UnimplementedStoreServiceServer) GetMarket(context.Context, *GetStoreRequest) (*GetStoreResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMarket not implemented")
+}
+func (UnimplementedStoreServiceServer) UpdateStore(context.Context, *UpdateStoreRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateStore not implemented")
+}
+func (UnimplementedStoreServiceServer) DeleteStore(context.Context, *DeleteStoreRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteStore not implemented")
 }
 func (UnimplementedStoreServiceServer) mustEmbedUnimplementedStoreServiceServer() {}
 
@@ -350,6 +378,42 @@ func _StoreService_GetMarket_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StoreService_UpdateStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateStoreRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoreServiceServer).UpdateStore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/store.StoreService/UpdateStore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoreServiceServer).UpdateStore(ctx, req.(*UpdateStoreRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StoreService_DeleteStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteStoreRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoreServiceServer).DeleteStore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/store.StoreService/DeleteStore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoreServiceServer).DeleteStore(ctx, req.(*DeleteStoreRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StoreService_ServiceDesc is the grpc.ServiceDesc for StoreService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -364,6 +428,14 @@ var StoreService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetMarket",
 			Handler:    _StoreService_GetMarket_Handler,
+		},
+		{
+			MethodName: "UpdateStore",
+			Handler:    _StoreService_UpdateStore_Handler,
+		},
+		{
+			MethodName: "DeleteStore",
+			Handler:    _StoreService_DeleteStore_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -55,6 +55,8 @@ message Product {
 service StoreService {
   rpc CreateStore(CreateStoreRequest) returns (empty);
   rpc GetMarket(GetStoreRequest) returns (GetStoreResponse);
+  rpc UpdateStore(UpdateStoreRequest) returns (empty);
+  rpc DeleteStore(DeleteStoreRequest) returns (empty);
 }
 
 message CreateStoreRequest {
@@ -69,6 +71,16 @@ message GetStoreRequest {
 
 message GetStoreResponse {
   Store store = 1;
+}
+
+message UpdateStoreRequest {
+  string store_id = 1;
+  string owner_id = 2;
+}
+
+message DeleteStoreRequest {
+  string store_id = 1;
+  string owner_id = 2;
 }
 
 message Store {
