@@ -74,6 +74,7 @@ message GetStoreResponse {
 
 message UpdateStoreRequest {
   string store_id = 1;
+  string name = 2;
 }
 
 message DeleteStoreRequest {
