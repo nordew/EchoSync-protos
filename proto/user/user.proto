@@ -7,6 +7,7 @@ option go_package = "nordew.user.v1";
 service User {
   rpc SignUp(SignUpRequest) returns (empty);
   rpc SignIn(SignInRequest) returns (SignInResponse);
+  rpc Refresh(RefreshRequest) returns (RefreshResponse);
 }
 
 message SignUpRequest {
@@ -21,6 +22,15 @@ message SignInRequest {
 }
 
 message SignInResponse {
+  string accessToken = 1;
+  string refreshToken = 2;
+}
+
+message RefreshRequest {
+  string refreshToken = 1;
+}
+
+message RefreshResponse {
   string accessToken = 1;
   string refreshToken = 2;
 }
